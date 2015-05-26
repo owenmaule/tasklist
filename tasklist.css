@@ -1,0 +1,492 @@
+/*
+	tasklist
+	Copyright Owen Maule 2015
+	o@owen-m.com
+	https://github.com/owenmaule/tasklist
+
+	License: GNU Affero General Public License v3
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Affero General Public License for more details.
+
+	You should have received a copy of the GNU Affero General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/agpl.html>.
+	
+	----
+	To do: Have a look at form inputs' max-widths, can simplify
+	There is a mysterious 1 pixel issue on the label, with JS disabled and a certain screen width, only happens in debug_layout
+*/
+
+/* Layout sections */
+
+body {
+	padding: 8px;
+	color: #666666;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+	max-width: 800px; /* Increase this to 1024px. Requires reworking entry form */
+	margin: 0 auto;
+	background-color: HoneyDew;
+}
+
+header {
+/*	outline: 1px solid Cyan; */
+}
+
+header div#header-overlay,
+div#main {
+}
+
+header div#header-overlay {
+	margin-bottom: 8px;
+/*	outline: 1px solid Magenta; */
+}
+
+nav.pure-menu {
+	width: auto;
+	position: relative;
+	z-index: 1;
+	margin-top: 5px;
+	white-space: normal;
+/*	background-color: Green; */
+}
+
+div#main {
+	margin-bottom: 16px;
+}
+
+/*
+.debug-layout div#main {
+	outline: 1px solid Blue;
+} */
+
+footer {
+	clear: both;
+	font-size: .7em;
+}
+
+/* Alerts */
+
+div#alert {
+	float: right;
+	position: relative;
+	z-index: 4;
+	margin: 0 0 8px 8px;
+}
+div#alert span {
+	display: block;
+	padding: 5px;
+	margin-bottom: 3px;
+	border-radius: 5px;
+}
+
+span.alert-error {
+	background-color: Tomato;
+	color: White;
+	font-weight: bold;
+	border: 1px solid Black;
+}
+span.alert-denied {
+	background-color: LightCoral;
+	color: #006666;
+}
+span.alert-notice {
+	background-color: LightSkyBlue;
+}
+span.alert-debug {
+	background-color: #f7dc97;
+}
+span.alert-warning {
+	background-color: Gold;
+}
+
+header div.logo-mount {
+	float: right;
+	clear: right;
+	position: relative;
+	top: -8px;
+}
+
+header img.logo {
+	position: absolute;
+	right: 0;
+	z-index: 1;
+}
+
+header img.logo:hover {
+	z-index: 2;
+	opacity: .8;
+}
+
+h1, h2 {
+	color: #aaaaaa;
+	line-height: 1em;
+	margin: 0;
+}
+
+h1 {
+	text-shadow: 0 0 8px LawnGreen;
+}
+
+h1 a:link,
+h1 a:visited,
+h1 a:hover,
+h1 a:active {
+	text-decoration: none;
+	color: inherit;
+}
+
+h1 span.app-title:hover {
+	text-shadow: 0 0 18px Blue;
+}
+
+h1 span.first-part {
+	margin-right: -.3em;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link,
+a:visited {
+    color: DeepSkyBlue;
+}
+a:hover {
+    color: DodgerBlue;
+}
+a:active {
+    color: MediumBlue;
+}
+
+.pure-menu li {
+	background-color: WhiteSmoke;
+	margin-top: 4px;
+	height: 42px;
+}
+
+.pure-menu li,
+.pure-menu li a {
+	border-radius: 5px;
+}
+
+/* Generic */
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+/* Form layout */
+
+label {
+	display: inline-block;
+	vertical-align: top;
+	text-align: right;
+	padding-right: 8px;
+}
+
+label.textarea-label {
+	margin: 0;
+	text-align: left;
+}
+
+input[type=text],
+input[type=password] {
+	position: relative;
+	top: -2px;
+	margin: 0 4px 8px 0;
+}
+
+div.textinput-bar { /* includes text input, cancel out top */
+	padding-top: 2px;
+}
+
+input[type=submit],
+input[type=button] {
+	margin: 0 4px 4px 0;
+	padding: 6.5px;
+	position: relative;
+	top: -6px;
+}
+
+div.button-bar { /* buttons only, cancel out top */
+	padding-top: 5px;
+}
+
+input[type=checkbox] {
+	position: relative;
+	left: 6px;
+	top: 6px;
+	margin-bottom: 12px;
+
+	/* All browsers except webkit*/
+	transform: scale(2);
+
+	/* Webkit browsers*/
+	-webkit-transform: scale(2);
+}
+
+#ui-datepicker-div {
+	z-index: 3 !important;
+}
+
+.ui-widget-header {
+	border: 1px solid #00c200;
+	background: #b8ffb8;
+}
+
+.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus,.ui-widget-header .ui-state-focus{
+	border: 1px solid #00c200;
+	background: #6bff6b;
+}
+
+/* Authenticator */
+
+form#auth-form {
+	clear: right;
+}
+
+form#auth-form div.button-bar {
+	margin-left: 138px;
+}
+
+form#auth-form label {
+	width: 130px;
+}
+
+form#auth-form input[type=text],
+form#auth-form input[type=password] {
+	min-width: 217px;
+	width: 100%;
+	max-width: 360px;
+	margin-right: 160px;
+}
+
+/* Password Manager */
+
+form#search-form,
+form#selector-form,
+form#entry-form {
+	margin-bottom: 0;
+}
+
+form#search-form {
+	display: inline-block;
+	position: relative;
+	z-index: 3;
+}
+
+form#search-form input {
+}
+
+form#search-form span.nowrap {
+	/* Hack for Chrome */
+	display: inline-block;
+}
+
+input#search {
+	width: 200px;
+}
+
+input#search-button {
+}
+
+form#selector-form {
+}
+
+select#selector {
+	float: left;
+	width: 200px;
+	height: 334px;
+	margin-bottom: 16px;
+}
+
+div#selector-buttons {
+	clear: right;
+}
+
+div#selector-buttons,
+form#entry-form {
+	padding-left: 209px;
+}
+
+form#entry-form {
+/*	background-color: Yellow; */
+}
+
+form#entry-form label {
+	width: 110px;
+}
+
+/* This specific width needs specific selector to override - try to do it without? */
+form#entry-form input[type=text],
+form#entry-form input[type=password],
+form#entry-form .compress-field {
+	width: 450px;
+}
+
+form#entry-form input[type=text],
+form#entry-form input[type=password] {
+	min-width: 200px;
+	z-index: 1;
+}
+
+.compress-field
+{
+	display: inline-block;
+}
+
+/*
+.debug-layout .compress-field {
+	outline: 1px solid Blue; 
+} */
+
+/* Without Javascript enabled, the 2 button becomes 1 and the 1 becomes 0 - take off the Copy button
+Button 1 is always the Copy */
+
+.compress-field input[type=button] {
+	display: none;
+}
+
+.js-enable .compress-field input[type=submit],
+.js-enable .compress-field input[type=button],
+.compress-field input[type=submit].button2 {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: -1px;
+	margin: 0;
+	width: 60px;
+}
+
+.js-enable .compress-field input[type=submit].button2,
+.js-enable .compress-field input[type=button].button2 {
+	right: 64px;
+}
+
+.js-enable .compress-field,
+.compress-field.two-button {
+	position: relative;
+	box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+	width: 365px;
+	margin-bottom: 8px;
+	padding-right: 64px;
+	min-width: 264px;
+}
+
+.js-enable .compress-field.zero-button {
+	padding-right: 0;
+}
+
+.js-enable .compress-field.two-button {
+	padding-right: 128px;
+}
+
+.debug-layout.js-enable .compress-field,
+.debug-layout .compress-field.two-button {
+	outline: 2px solid Red;
+}
+
+/* Requires form#entry-form to override specified width, will try to remove that width */
+.js-enable form#entry-form .compress-field input[type=text],
+/* .js-enable form#entry-form .compress-field input[type=password], */ 
+form#entry-form .compress-field.two-button input[type=text],
+form#entry-form .compress-field.two-button input[type=password] {
+	position: static;
+	margin: 0;
+	width: 100%;
+/*	min-width: 0; */
+}
+
+form#entry-form textarea {
+	min-width: 190px;
+	margin: 0 8px 8px 0;
+	width: 100%;
+	max-width: 567px;
+}
+
+@media only screen and ( max-width: 810px )
+{
+	form#auth-form label {
+		display: block;
+		text-align: left;
+	}
+	form#auth-form div.button-bar {
+		margin-left: 0;
+	}
+
+	select#selector {
+		height: 383px;
+	}
+
+	form#entry-form {
+		padding-right: 8px;
+	}
+
+	form#entry-form label {
+		text-align: left;
+/*		width: auto; */
+		width: 100%;
+		margin: 0;
+	}
+	
+	form#entry-form label.checkradiolabel {
+		width: 110px;
+	}
+
+	input[type=checkbox] {
+		position: static;
+		margin-bottom: 12px;
+	}
+
+	form#entry-form input[type=text],
+	form#entry-form input[type=password],
+	form#entry-form textarea {
+		display: block;
+		width: 100%;
+		margin-bottom: 4px; /* ? */
+	}
+
+	/* Requires form#entry-form to override specified width, will try to remove that width */
+	form#entry-form .compress-field {
+		display: block;
+		width: 100%;
+	}
+
+	form#entry-form textarea {
+		margin-bottom: 12px;
+	}
+}
+
+@media only screen and ( max-width: 640px )
+{
+	select#selector {
+		width: 100%;
+		height: 200px;
+		margin-bottom: 8px;
+	}
+	
+	div#selector-buttons {
+		clear: left;
+		padding-left: 0;
+		margin-bottom: -4px;
+	}
+
+	form#entry-form {
+		clear: left;
+/*		background-color: Green; */
+		padding: 0;
+	}
+}
