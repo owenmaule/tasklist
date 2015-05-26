@@ -42,7 +42,6 @@ It is possible to route the debug messages to the browser console, with a specia
 Please try to solve issues yourself by searching online or asking a friend or colleague, however if you are really stuck you may email me at o@owen-m.com and I will try to offer timely support (no promises).
 7. There are three more config.php values that may help in debugging.
 <pre><code>
-	'disable_clipboard' => false,	# ZeroClipboard uses swf which interferes with browser dev tools
 	'debug_layout' => false,		# Applies CSS rules to observe the page layout elements
 	'disable_javascript' => false,	# Runs the site in non-Javascript mode to test graceful degradation ( e.g. NoScript )
 </code></pre>

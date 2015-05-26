@@ -40,8 +40,7 @@ $config = array (
 	'enforce_https' => false,		# if supported in your environment, set to true
 
 	# Debugging
-	'debug_messages' => 'console', #false,		# can set to 'console' to route to browser console
-	'disable_clipboard' => false,	# ZeroClipboard uses swf which interferes with browser dev tools
+	'debug_messages' => false,		# can set to 'console' to route to browser console
 	'debug_layout' => false,		# Applies CSS rules to observe the page layout elements
 	'disable_javascript' => false,	# Runs the site in non-Javascript mode to test graceful degradation ( e.g. NoScript )
 
